@@ -43,7 +43,7 @@ app.post('/api/v1/tours', (req, res) => {
   );
   tours.push(newTour);
   fs.writeFile(
-    `${__dirname}/dev-data/data/tours-simple.json`,
+    console.log('Hello')`${__dirname}/dev-data/data/tours-simple.json`,
     JSON.stringify(tours),
     (err) => {
       if (err) console.log('Failed to save file');
