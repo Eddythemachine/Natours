@@ -37,7 +37,6 @@ const getActivity = async () => {
   const data = await readFilePro(
     `${__dirname}/activity.txt`
   );
-
   const res = await superagent.get(
     `https://www.boredapi.com/api/${data}`
   );
@@ -46,12 +45,22 @@ const getActivity = async () => {
   const tdata = `$Activity:${activity}, Type:${type}, participants:${participants}`;
   await writeFilePro(
     `${__dirname}/newtet.txt`,
-    tdata
+    tdata,
+    (err) => {
+      console.log(
+        activity,
+        type,
+        participants,
+        link
+      );
+      console.log('Erro');
+    }
   );
 };
 
-getActivity();
-
+(() => {
+  const x = getActivity();
+})();
 // readFilePro(`${__dirname}/activity.txt`)
 //   .then((data) => {
 //     return superagent
