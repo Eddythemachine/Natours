@@ -1,78 +1,79 @@
 // CORE MODULES
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 // NPM MODULES
-const express = require('express');
+const express = require("express");
 const app = express();
 
 // MIDDLE WELL
 app.use(express.json());
 
 const tours = JSON.parse(
-  fs.readFileSync(
-    `${__dirname}/dev-data/data/tours-simple.json`,
-    'utf-8'
-  )
+  fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`, "utf-8")
 );
 
 // app.get('/', (req, res) => {
 //   res.status(200).send('Hello');
 // });
 
-app.get('/api/v1/tours', (req, res) => {
+app.get("/api/v1/tours", (req, res) => {
   res.status(200).json({
-    status: 'Successfull',
+    status: "Successfull",
     results: tours.length,
     data: { tours: tours },
   });
 });
-app.get('/api/v1/tours/:id', (req, res) => {
+app.get("/api/v1/tours/:id", (req, res) => {
   console.log(req.params);
-  const tour = tours.find(
-    (el) => el.id === +req.params.id
-  );
+  const tour = tours.find((el) => el.id === +req.params.id);
 
   if (+req.params.id > tours.length) {
     res.status(404).json({
-      status: 'Failed',
-      message: 'Invalid ID',
+      status: "Failed",
+      message: "Invalid ID",
     });
   }
 
   res.status(200).json({
     // status: tour ? 'Successfull' : 'Failed',
-    status: 'Success',
+    status: "Success",
     data: {
       tour,
     },
   });
 });
 
-app.patch('/api/v1/tours/:id', (req, res) => {
+app.patch("/api/v1/tours/:id", (req, res) => {
   // Validate your url
   console.log(req.params);
   res.status(200).json({
-    status: 'Successfull',
+    status: "Successfull",
     data: {
-      tours: 'Data updated',
+      tours: "Data updated",
     },
   });
 });
 
-app.post('/api/v1/tours', (req, res) => {
+app.delete("/api/v1/tours/:id", (req, res) => {
+  // Validate your url
+  console.log(req.params);
+  res.status(204).json({
+    status: "Successfull",
+    data: null,
+  });
+});
+
+app.post("/api/v1/tours", (req, res) => {
   const newId = tours[tours.length - 1].id + 1;
-  const newObj = Object.assign(
-    { id: newId },
-    req.body
-  );
+  const newObj = Object.assign({ id: newId }, req.body);
   tours.push(newObj);
   fs.writeFile(
     `${__dirname}/dev-data/data/tours-simple.json`,
     JSON.stringify(tours),
     (err) => {
       res.status(201).json({
-        status: 'Successfull',
+        status: "Successfull",
         data: {
           tours: newObj,
         },
@@ -84,7 +85,7 @@ app.post('/api/v1/tours', (req, res) => {
 
 const port = 3000;
 app.listen(port, () => {
-  console.log('Server started');
+  console.log("Server started");
 });
 
 // app.get('/', (req, res) => {
