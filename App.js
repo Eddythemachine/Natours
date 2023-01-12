@@ -7,6 +7,9 @@ const express = require("express");
 const console = require("console");
 const app = express();
 
+// Importing Third party middleware
+const morgan = require("morgan");
+
 // MIDDLE WARE
 app.use(express.json());
 // Creating our own middleware
@@ -14,7 +17,10 @@ app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
   next();
 });
+// Third party middleware
+app.use(morgan("dev"));
 
+// Local database configuration
 const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`, "utf-8")
 );
@@ -22,6 +28,8 @@ const tours = JSON.parse(
 // app.get('/', (req, res) => {
 //   res.status(200).send('Hello');
 // });
+
+// CRUD operations on our tours
 const getTour = (req, res) => {
   console.log(req.requestTime);
   console.log(req.params);
@@ -32,16 +40,16 @@ const getTour = (req, res) => {
       status: "Failed",
       message: "Invalid ID",
     });
+  } else {
+    res.status(200).json({
+      // status: tour ? 'Successfull' : 'Failed',
+      status: "Success",
+      requestedAt: req.requestTime,
+      data: {
+        tour,
+      },
+    });
   }
-
-  res.status(200).json({
-    // status: tour ? 'Successfull' : 'Failed',
-    status: "Success",
-    requestedAt: req.requestTime,
-    data: {
-      tour,
-    },
-  });
 };
 
 const getAllTours = (req, res) => {
@@ -97,6 +105,7 @@ const createTour = (req, res) => {
 // app.patch("/api/v1/tours/:id", updateTour);
 // app.delete("/api/v1/tours/:id", deleteTour);
 
+// ROUTES
 app.route("/api/v1/tours").get(getAllTours).post(createTour);
 app
   .route("/api/v1/tours/:id")
@@ -104,6 +113,7 @@ app
   .patch(updateTour)
   .delete(deleteTour);
 
+// SERVER
 const port = 3000;
 app.listen(port, () => {
   console.log("Server started");
