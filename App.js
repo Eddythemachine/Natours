@@ -30,7 +30,6 @@ const getTour = (req, res) => {
   if (+req.params.id > tours.length) {
     res.status(404).json({
       status: "Failed",
-      requestedAt: req.requestTime,
       message: "Invalid ID",
     });
   }
@@ -38,6 +37,7 @@ const getTour = (req, res) => {
   res.status(200).json({
     // status: tour ? 'Successfull' : 'Failed',
     status: "Success",
+    requestedAt: req.requestTime,
     data: {
       tour,
     },
