@@ -4,10 +4,16 @@ const path = require("path");
 
 // NPM MODULES
 const express = require("express");
+const console = require("console");
 const app = express();
 
-// MIDDLE WELL
+// MIDDLE WARE
 app.use(express.json());
+// Creating our own middleware
+app.use((req, res, next) => {
+  req.requestTime = new Date().toISOString();
+  next();
+});
 
 const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`, "utf-8")
@@ -17,12 +23,14 @@ const tours = JSON.parse(
 //   res.status(200).send('Hello');
 // });
 const getTour = (req, res) => {
+  console.log(req.requestTime);
   console.log(req.params);
   const tour = tours.find((el) => el.id === +req.params.id);
 
   if (+req.params.id > tours.length) {
     res.status(404).json({
       status: "Failed",
+      requestedAt: req.requestTime,
       message: "Invalid ID",
     });
   }
