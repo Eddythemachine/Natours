@@ -16,15 +16,7 @@ const tours = JSON.parse(
 // app.get('/', (req, res) => {
 //   res.status(200).send('Hello');
 // });
-
-app.get("/api/v1/tours", (req, res) => {
-  res.status(200).json({
-    status: "Successfull",
-    results: tours.length,
-    data: { tours: tours },
-  });
-});
-app.get("/api/v1/tours/:id", (req, res) => {
+const getTour = (req, res) => {
   console.log(req.params);
   const tour = tours.find((el) => el.id === +req.params.id);
 
@@ -42,9 +34,17 @@ app.get("/api/v1/tours/:id", (req, res) => {
       tour,
     },
   });
-});
+};
 
-app.patch("/api/v1/tours/:id", (req, res) => {
+const getAllTours = (req, res) => {
+  res.status(200).json({
+    status: "Successfull",
+    results: tours.length,
+    data: { tours: tours },
+  });
+};
+
+const updateTour = (req, res) => {
   // Validate your url
   console.log(req.params);
   res.status(200).json({
@@ -53,18 +53,18 @@ app.patch("/api/v1/tours/:id", (req, res) => {
       tours: "Data updated",
     },
   });
-});
+};
 
-app.delete("/api/v1/tours/:id", (req, res) => {
+const deleteTour = (req, res) => {
   // Validate your url
   console.log(req.params);
   res.status(204).json({
     status: "Successfull",
     data: null,
   });
-});
+};
 
-app.post("/api/v1/tours", (req, res) => {
+const createTour = (req, res) => {
   const newId = tours[tours.length - 1].id + 1;
   const newObj = Object.assign({ id: newId }, req.body);
   tours.push(newObj);
@@ -81,7 +81,20 @@ app.post("/api/v1/tours", (req, res) => {
     }
   );
   // Object.assign creates a new object and merges it with an existing object
-});
+};
+
+// app.get("/api/v1/tours", getAllTours);
+// app.post("/api/v1/tours", createTour);
+// app.get("/api/v1/tours/:id", getTour);
+// app.patch("/api/v1/tours/:id", updateTour);
+// app.delete("/api/v1/tours/:id", deleteTour);
+
+app.route("/api/v1/tours").get(getAllTours).post(createTour);
+app
+  .route("/api/v1/tours/:id")
+  .get(getTour)
+  .patch(updateTour)
+  .delete(deleteTour);
 
 const port = 3000;
 app.listen(port, () => {
