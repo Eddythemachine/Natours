@@ -99,6 +99,44 @@ const createTour = (req, res) => {
   // Object.assign creates a new object and merges it with an existing object
 };
 
+const getAllUsers = (res, req) => {
+  res.status(500).json({
+    status: "Error",
+    message: "This route is not yet defined",
+  });
+};
+const getUser = (res, req) => {
+  res.status(500).json({
+    status: "Error",
+    message: "This route is not yet defined",
+  });
+};
+const createUser = (res, req) => {
+  res.status(500).json({
+    status: "Error",
+    message: "This route is not yet defined",
+  });
+};
+const updateUser = (res, req) => {
+  res.status(500).json({
+    status: "Error",
+    message: "This route is not yet defined",
+  });
+};
+const deleteUser = (res, req) => {
+  res.status(500).json({
+    status: "Error",
+    message: "This route is not yet defined",
+  });
+};
+
+// MORGAN
+app.route("/api/v1/users").get(getAllUsers).post(createUser);
+app
+  .route("/api/v1/users/:id")
+  .get(getUser)
+  .patch(updateUser)
+  .delete(deleteUser);
 // app.get("/api/v1/tours", getAllTours);
 // app.post("/api/v1/tours", createTour);
 // app.get("/api/v1/tours/:id", getTour);
