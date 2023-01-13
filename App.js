@@ -99,31 +99,31 @@ const createTour = (req, res) => {
   // Object.assign creates a new object and merges it with an existing object
 };
 
-const getAllUsers = (res, req) => {
+const getAllUsers = (req, res) => {
   res.status(500).json({
     status: "Error",
     message: "This route is not yet defined",
   });
 };
-const getUser = (res, req) => {
+const getUser = (req, res) => {
   res.status(500).json({
     status: "Error",
     message: "This route is not yet defined",
   });
 };
-const createUser = (res, req) => {
+const createUser = (req, res) => {
   res.status(500).json({
     status: "Error",
     message: "This route is not yet defined",
   });
 };
-const updateUser = (res, req) => {
+const updateUser = (req, res) => {
   res.status(500).json({
     status: "Error",
     message: "This route is not yet defined",
   });
 };
-const deleteUser = (res, req) => {
+const deleteUser = (req, res) => {
   res.status(500).json({
     status: "Error",
     message: "This route is not yet defined",
